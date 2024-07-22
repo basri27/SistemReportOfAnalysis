@@ -19,6 +19,9 @@
     <link href="{{ asset('argon/assets/css/nucleo-svg.css') }}" rel="stylesheet" />
     <!-- CSS Files -->
     <link id="pagestyle" href="{{ asset('argon/assets/css/argon-dashboard.css') }}" rel="stylesheet" />
+    <link rel="stylesheet" href="{{ asset('argon/assets/css/modal-custom.css') }}">
+    {{-- DataTable --}}
+    <link rel="stylesheet" href="//cdn.datatables.net/2.1.0/css/dataTables.dataTables.min.css">
 </head>
 
 <body class="{{ $class ?? '' }}">
@@ -50,12 +53,17 @@
             @include('layouts.navbars.auth.sidenav')
             <main class="main-content border-radius-lg">
                 @yield('content')
+                <div class="container-fluid py-4">
+                    @include('layouts.footers.auth.footer')
+                </div>
             </main>
-            @include('components.fixed-plugin')
+            {{-- @include('components.fixed-plugin') --}}
         @endif
     @endauth
 
     <!--   Core JS Files   -->
+    <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
+        crossorigin="anonymous"></script>
     <script src="{{ asset('argon/assets/js/core/popper.min.js') }}"></script>
     <script src="{{ asset('argon/assets/js/core/bootstrap.min.js') }}"></script>
     <script src="{{ asset('argon/assets/js/plugins/perfect-scrollbar.min.js') }}"></script>
@@ -73,7 +81,12 @@
     <script async defer src="https://buttons.github.io/buttons.js"></script>
     <!-- Control Center for Soft Dashboard: parallax effects, scripts for the example pages etc -->
     <script src="{{ asset('argon/assets/js/argon-dashboard.js') }}"></script>
+    {{-- DataTable --}}
+    <script src="//cdn.datatables.net/2.1.0/js/dataTables.min.js"></script>
+    {{-- Custom JS --}}
+    <script src="{{ asset('argon/assets/js/modal-custom.js') }}"></script>
     @stack('js');
+    @yield('custom-js')
 </body>
 
 </html>

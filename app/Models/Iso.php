@@ -15,4 +15,8 @@ class Iso extends Model
         'method_sulfur',
         'method_ash'
     ];
+
+    public function analisa() {
+        return $this->hasMany(Analisa::class);
+    }
 }

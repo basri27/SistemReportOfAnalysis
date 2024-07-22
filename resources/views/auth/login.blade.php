@@ -18,21 +18,23 @@
                                         @csrf
                                         <div class="flex flex-col mb-3">
                                             <input type="email" name="email" class="form-control form-control-lg"
-                                                value="{{ old('email') }}" placeholder="example@email.com"
-                                                aria-label="Email">
+                                                @if (isset($_COOKIE['email'])) value="{{ $_COOKIE['email'] }}" @else value="{{ old('email') }} @endif
+                                                "placeholder="example@email.com" aria-label="Email" required>
                                             @error('email')
                                                 <p class="text-danger text-xs pt-1"> {{ $message }} </p>
                                             @enderror
                                         </div>
                                         <div class="flex flex-col mb-3">
                                             <input type="password" name="password" class="form-control form-control-lg"
-                                                placeholder="********" aria-label="Password">
+                                                @if (isset($_COOKIE['password'])) value="{{ $_COOKIE['password'] }}" @endif
+                                                placeholder="********" aria-label="Password" required>
                                             @error('password')
                                                 <p class="text-danger text-xs pt-1"> {{ $message }} </p>
                                             @enderror
                                         </div>
                                         <div class="form-check form-switch">
-                                            <input class="form-check-input" name="remember" type="checkbox" id="rememberMe">
+                                            <input class="form-check-input" name="remember" type="checkbox" id="rememberMe"
+                                                checked>
                                             <label class="form-check-label" for="rememberMe">Remember me</label>
                                         </div>
                                         <div class="text-center">

@@ -19,9 +19,22 @@ class AuthController extends Controller
             ]);
         }
 
+        if($request->input('remember') == 'on') {
+            setcookie('email', $request->input('email'), time()+3600);
+            setcookie('password', $request->input('password'), time()+3600);
+        }else {
+            setcookie('email', '');
+            setcookie('password', '');
+        }
+
         $request->session()->regenerate();
         
-        return redirect()->route('dashboard');
+        if(Auth::user()->role == 'admin') {
+            return redirect()->route('dashboard-admin');
+        }    
+        elseif(Auth::user()->role == 'staff lab') {
+            return redirect()->route('dashboard-lab');
+        }
     }
 
     public function logout(Request $request)

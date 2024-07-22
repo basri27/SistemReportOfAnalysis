@@ -31,4 +31,8 @@ class Astm extends Model
     public function totalMoist() {
         return $this->belongsTo(TotalMoist::class);
     }
+
+    public function analisa() {
+        return $this->hasMany(Analisa::class);
+    }
 }
