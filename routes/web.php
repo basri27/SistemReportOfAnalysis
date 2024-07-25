@@ -55,3 +55,6 @@ Route::controller(StaffController::class)->group(function () {
 });
 
 Route::get('/data-report-of-analysis', [Controller::class, 'dataReport'])->name('data-report');
+Route::get('/profil', [Controller::class, 'profil'])->name('profil');
+Route::patch('/update-profil', [Controller::class, 'updateProfil'])->name('update-profil');
+Route::patch('/update-password', [Controller::class, 'updatePassword'])->name('update-password');

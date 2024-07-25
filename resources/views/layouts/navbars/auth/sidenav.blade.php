@@ -27,7 +27,7 @@
                 <h6 class="ps-2 ms-2 text-uppercase text-xs font-weight-bolder opacity-6 mb-0">Pages</h6>
             </li>
             <li class="nav-item">
-                <a class="nav-link {{ Route::is('dashboard') ? 'active' : '' }}" href="#">
+                <a class="nav-link {{ Route::is('profil') ? 'active' : '' }}" href="{{ route('profil') }}">
                     <div
                         class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
                         <i class="ni ni-single-02 text-dark text-sm opacity-10"></i>
