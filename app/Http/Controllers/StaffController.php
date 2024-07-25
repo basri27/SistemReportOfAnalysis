@@ -14,8 +14,8 @@ use App\Models\Report;
 use App\Models\Sulfur;
 use App\Models\TotalMoist;
 use App\Models\Volatile;
+use Carbon\Carbon as Carbon2;
 use Illuminate\Http\Request;
-use SebastianBergmann\CodeCoverage\Report\Xml\Totals;
 
 class StaffController extends Controller
 {
@@ -25,7 +25,17 @@ class StaffController extends Controller
     } 
 
     public function dashboard() {
-        return view('pages.lab.dashboard');
+        $todaySample = Analisa::whereDate('created_at', Carbon2::now())->count();
+        $todayReport = Report::whereDate('date_reported', Carbon2::now())->count();
+        $heaviestSample = Report::whereDate('created_at', Carbon2::now())->max('weight');
+        $mostFreqSample = Report::select('consignment')->whereDate('created_at', Carbon2::now())->groupBy('consignment')->orderByRaw('COUNT(*) DESC')->limit(1)->get();
+
+        $querySample = Analisa::whereDate('created_at', Carbon2::now());
+        $todaySampleData = $querySample->orderBy('created_at', 'DESC')->take(5)->get();
+        $query = Report::whereDate('date_reported', Carbon2::now());
+        $todayDraft = $query->orderBy('date_reported', 'DESC')->take(5)->get();
+
+        return view('pages.lab.dashboard', compact('todaySample', 'todayReport', 'heaviestSample', 'mostFreqSample', 'todaySampleData', 'todayDraft'));
     }
 
     public function analisa() {
