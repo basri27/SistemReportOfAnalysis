@@ -14,18 +14,6 @@
             <div class="card mb-4">
                 <div class="card-header pb-0 d-flex justify-content-between mb-0">
                     <h6>Data Hasil Analisa</h6>
-                    <div class="btn-group" role="group">
-                        <button type="button" class="btn btn-primary btn-sm dropdown-toggle mb-0" data-bs-toggle="dropdown"
-                            aria-expanded="false">
-                            NEW DATA
-                        </button>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="{{ route('add-data-analisa-astm') }}">Standart ASTM</a></li>
-                            <li><a class="dropdown-item" href="{{ route('add-data-analisa-rapid') }}">Standart RAPID</a>
-                            </li>
-                        </ul>
-                    </div>
-                    {{-- <a href="{{ route('add-data-analisa') }}" class="btn btn-primary btn-sm mb-0">New Data</a> --}}
                 </div>
 
                 <div class="card-body pt-0 pb-2">
@@ -90,9 +78,6 @@
                                                 class="text-xs mb-0">
                                                 <u><i class="fas fa-edit"></i>Edit</u>
                                             </a>&nbsp;
-                                            <a onclick="deleteAnalisa({{ $item->id }})" class="text-xs mb-0">
-                                                <u><i class="fas fa-trash"></i>Delete</u>
-                                            </a>
                                         </td>
                                     </tr>
                                 @endforeach
@@ -104,39 +89,10 @@
             </div>
         </div>
     </div>
-    @foreach ($analisa as $item)
-        <div class="modal fade" tabindex="-1" data-bs-backdrop="static" id="delete{{ $item->id }}">
-            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">Do you want to delete this data?</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <table class="table">
-
-                        </table>
-                    </div>
-                    <div class="modal-footer pb-0">
-                        <button type="button" class="btn  btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="button" class="btn  btn-danger">Confirm</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    @endforeach
 @endsection
 
 @section('custom-js')
     <script>
         $('#myTable').DataTable();
-
-        function deleteAnalisa($id) {
-            if (confirm("Do you want to delete this data?"))
-                window.location.href = '/reportofanalysis/delete-analisa/' + $id;
-            else {
-                console.log("Error");
-            }
-        }
     </script>
 @endsection

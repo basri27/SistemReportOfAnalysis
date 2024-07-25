@@ -4,10 +4,27 @@
     @include('layouts.navbars.auth.topnav', ['title' => 'Data Hasil Analisa'])
     <div class="row mt-4 mx-4">
         <div class="col-12">
+            @if ($message = Session::get('success'))
+                <div class="alert alert-light alert-dismissable fade show d-flex justify-content-between" role="alert">
+                    <strong>{{ $message }}</strong>
+                    <button type="button" class="btn-close bg-dark" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            @endif
 
             <div class="card mb-4">
                 <div class="card-header pb-0 d-flex justify-content-between mb-0">
                     <h6>Data Hasil Analisa</h6>
+                    <div class="btn-group" role="group">
+                        <button type="button" class="btn btn-primary btn-sm dropdown-toggle mb-0" data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                            NEW DATA
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="{{ route('add-data-analisa-astm') }}">Standart ASTM</a></li>
+                            <li><a class="dropdown-item" href="{{ route('add-data-analisa-rapid') }}">Standart RAPID</a>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
 
                 <div class="card-body pt-0 pb-2">
@@ -68,9 +85,13 @@
                                                 {{ \Carbon\Carbon::parse($item->tgl_sampel)->format('d F Y') }}</p>
                                         </td>
                                         <td>
-                                            <a @if ($item->standard == 'RAPID') href="{{ route('add-report-analisa-rapid', $item->id) }}" @else href="{{ route('add-report-analisa-astm', $item->id) }}" @endif
-                                                class="text-xs mb-0">
-                                                <u><i class="fas fa-plus"></i>&nbsp;Create Report</u>
+                                            <a class="text-xs mb-0"
+                                                @if ($item->standard == 'RAPID') href="{{ route('edit-data-analisa-rapid', $item->id) }}"
+                                                @else href="{{ route('edit-data-analisa-astm', $item->id) }}" @endif>
+                                                <u><i class="fas fa-edit"></i>&nbsp;Edit</u>
+                                            </a>&nbsp;
+                                            <a onclick="deleteAnalisa({{ $item->id }})" class="text-xs mb-0">
+                                                <u><i class="fas fa-trash"></i>&nbsp;Delete</u>
                                             </a>
                                         </td>
                                     </tr>
@@ -88,5 +109,13 @@
 @section('custom-js')
     <script>
         $('#myTable').DataTable();
+
+        function deleteAnalisa($id) {
+            if (confirm("Do you want to delete this data?"))
+                window.location.href = '/reportofanalysis/delete-analisa/' + $id;
+            else {
+                console.log("Error");
+            }
+        }
     </script>
 @endsection

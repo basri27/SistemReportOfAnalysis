@@ -27,6 +27,134 @@ class AdminController extends Controller
         return view('pages.admin.hasil-analisa', compact('analisa'));
     }
 
+    public function addDataAnalisaAstm() {
+        return view('pages.admin.crud.add-astm-analisa');
+    }
+
+    public function createAnalisaAstm(Request $request) {
+        $analisa = Analisa::create([
+            'job_no' => $request->input('job_no'),
+            'kode'  => $request->input('kode'),
+            'lab_sample_id' => $request->input('sampel_id'),
+            'standard'  => 'ASTM',
+            'parameter' => 'TM,PROX,TS,CV',
+            'kode_sampel' => $request->input('kode_sampel'),
+            'client' => $request->input('client'),
+            'kode_seam' => $request->input('kode_seam'),
+            'kontraktor' => $request->input('kontraktor'),
+            'status' => $request->input('status'),
+            'adl_a' => $request->input('adl_a'),
+            'tat' => $request->input('tat'),
+            'tgl_sampel' => $request->input('tgl_sampel'),
+        ]);
+
+        Report::create([
+            'principal' => $request->input('principal'),
+            'address' => $request->input('address'),
+            'attention' => $request->input('attention'),
+            'reff_order' => $request->input('refforder'),
+            'consignment' => $request->input('consignment'),
+            'weight' => $request->input('weight'),
+            'date_recieve' => $request->input('date_recieve'),
+            'date_reported' => $request->input('date_reported'),
+            'analisa_id' => $analisa->id
+        ]);
+
+        return redirect()->route('hasil-analisa-lab')->with('success', 'Data dengan Job No: [' . $analisa->job_no . '] | Kode Sampel: [' . $analisa->lab_sample_id . '] berhasil ditambahkan!');
+    }
+
+    public function addDataAnalisaRapid() {
+        return view('pages.admin.crud.add-rapid-analisa');
+    }
+
+    public function createAnalisaRapid(Request $request) {
+        $analisa = Analisa::create([
+            'job_no' => $request->input('job_no'),
+            'kode'  => $request->input('kode'),
+            'lab_sample_id' => $request->input('sampel_id'),
+            'standard'  => 'RAPID',
+            'parameter' => 'RAPID ASH & TS',
+            'kode_sampel' => $request->input('kode_sampel'),
+            'client' => $request->input('client'),
+            'kode_seam' => $request->input('kode_seam'),
+            'kontraktor' => $request->input('kontraktor'),
+            'status' => $request->input('status'),
+            'adl_a' => $request->input('adl_a'),
+            'tat' => $request->input('tat'),
+            'tgl_sampel' => $request->input('tgl_sampel'),
+        ]);
+
+        Report::create([
+            'principal' => $request->input('principal'),
+            'address' => $request->input('address'),
+            'attention' => $request->input('attention'),
+            'reff_order' => $request->input('refforder'),
+            'consignment' => $request->input('consignment'),
+            'weight' => $request->input('weight'),
+            'date_recieve' => $request->input('date_recieve'),
+            'date_reported' => $request->input('date_reported'),
+            'analisa_id' => $analisa->id
+        ]);
+
+        return redirect()->route('hasil-analisa-lab')->with('success', 'Data dengan Job No: [' . $analisa->job_no . '] | Kode Sampel: [' . $analisa->lab_sample_id . '] berhasil ditambahkan!');
+    }
+
+    public function editDataAnalisaAstm($id) {
+        $analisa = Analisa::with('report')->find($id);
+        foreach($analisa->report as $report) {
+            
+        }
+
+        return view('pages.admin.crud.edit-astm-analisa', compact('analisa', 'report'));
+    }
+
+    public function updateAnalisaAstm(Request $request, $id) {
+        $analisa = Analisa::find($id);
+        $analisa->update([
+            'job_no' => $request->input('job_no'),
+            'kode'  => $request->input('kode'),
+            'lab_sample_id' => $request->input('sampel_id'),
+            'kode_sampel' => $request->input('kode_sampel'),
+            'client' => $request->input('client'),
+            'kode_seam' => $request->input('kode_seam'),
+            'kontraktor' => $request->input('kontraktor'),
+            'status' => $request->input('status'),
+            'adl_a' => $request->input('adl_a'),
+            'tat' => $request->input('tat'),
+            'tgl_sampel' => $request->input('tgl_sampel'),
+        ]);
+
+        return redirect()->route('hasil-analisa-lab')->with('success', 'Data dengan Job No: [' . $analisa->job_no . '] | Kode Sampel: [' . $analisa->lab_sample_id . '] berhasil diubah!');
+    }
+
+    public function editDataAnalisaRapid($id) {
+        $analisa = Analisa::with('report')->find($id);
+        foreach($analisa->report as $report) {
+            
+        }
+
+        return view('pages.admin.crud.edit-rapid-analisa', compact('analisa', 'report'));
+    }
+
+    public function updateAnalisaRapid(Request $request, $id) {
+        $analisa = Analisa::find($id);
+        $analisa->update([
+            'job_no' => $request->input('job_no'),
+            'kode'  => $request->input('kode'),
+            'lab_sample_id' => $request->input('sampel_id'),
+            'kode_sampel' => $request->input('kode_sampel'),
+            'client' => $request->input('client'),
+            'kode_seam' => $request->input('kode_seam'),
+            'kontraktor' => $request->input('kontraktor'),
+            'status' => $request->input('status'),
+            'adl_a' => $request->input('adl_a'),
+            'tat' => $request->input('tat'),
+            'tgl_sampel' => $request->input('tgl_sampel'),
+        ]);
+
+        return redirect()->route('hasil-analisa-lab')->with('success', 'Data dengan Job No: [' . $analisa->job_no . '] | Kode Sampel: [' . $analisa->lab_sample_id . '] berhasil diubah!');
+    }
+
     public function analisaReportRapid($id) {
         $analisa = Analisa::find($id);
 
@@ -111,15 +239,15 @@ class AdminController extends Controller
         return view('pages.success', compact('report', 'page'));
     }
 
-    public function printPreviewRapid($id, $page) {
+    public function printPreviewRapid($id, $page, $count) {
         $report = Report::find($id);
 
-        return view('layouts.print-preview-rapid', compact('report', 'page'));
+        return view('layouts.print-preview-rapid', compact('report', 'count', 'page'));
     }
 
-    public function printPreviewAstm($id, $page) {
+    public function printPreviewAstm($id, $page, $count) {
         $report = Report::find($id);
 
-        return view('layouts.print-preview-astm', compact('report', 'page'));
+        return view('layouts.print-preview-astm', compact('report', 'count', 'page'));
     }
 }

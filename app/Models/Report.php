@@ -18,7 +18,6 @@ class Report extends Model
         'weight',
         'date_recieve',
         'date_reported',
-        'page',
         'analisa_id'
     ];
 

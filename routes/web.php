@@ -36,25 +36,38 @@ Route::controller(AdminController::class)->group(function () {
     Route::post('/create-report/rapid{id}', 'inputReportRapid')->name('input-report-rapid');
     Route::post('/create-report/astm{id}', 'inputReportAstm')->name('input-report-astm');
     Route::get('/report-success/{id}/page={page}', 'successCreateReport')->name('success-report');
-    Route::get('/preview/report-rapid/pdf/{id}/page={page}', 'printPreviewRapid')->name('print-preview-rapid');
-    Route::get('/preview/report-astm/pdf/{id}/page={page}', 'printPreviewAstm')->name('print-preview-astm');
+    Route::get('/preview/report-rapid/pdf/{id}/page={page}/count={count}', 'printPreviewRapid')->name('print-preview-rapid');
+    Route::get('/preview/report-astm/pdf/{id}/page={page}/count={count}', 'printPreviewAstm')->name('print-preview-astm');
+    Route::get('/add-data-anallisa-astm', 'addDataAnalisaAstm')->name('add-data-analisa-astm');
+    Route::get('/add-data-anallisa-rapid', 'addDataAnalisaRapid')->name('add-data-analisa-rapid');
+    Route::post('/create-analisa-astm', 'createAnalisaAstm')->name('create-analisa-astm');
+    Route::post('/create-analisa-rapid', 'createAnalisaRapid')->name('create-analisa-rapid');
+    Route::get('/edit-analisa-astm/{id}', 'editDataAnalisaAstm')->name('edit-data-analisa-astm');
+    Route::patch('/update-data-astm{id}', 'updateAnalisaAstm')->name('update-data-astm');
+    Route::get('/edit-analisa-rapid/{id}', 'editDataAnalisaRapid')->name('edit-data-analisa-rapid');
+    Route::patch('/update-data-rapid{id}', 'updateAnalisaRapid')->name('update-data-rapid');
+    Route::get('/delete-analisa/{id}', 'deleteAnalisa')->name('delete-analisa');
 });
 
 Route::controller(StaffController::class)->group(function () {
     Route::get('/dashboard-stafflab', 'dashboard')->name('dashboard-lab');
     Route::get('/data-hasil-analisa', 'analisa')->name('data-hasil-analisa');
-    Route::get('/add-data-anallisa-astm', 'addDataAnalisaAstm')->name('add-data-analisa-astm');
-    Route::get('/add-data-anallisa-rapid', 'addDataAnalisaRapid')->name('add-data-analisa-rapid');
+    // Route::get('/add-data-anallisa-astm', 'addDataAnalisaAstm')->name('add-data-analisa-astm');
+    // Route::get('/add-data-anallisa-rapid', 'addDataAnalisaRapid')->name('add-data-analisa-rapid');
     Route::post('/tambah-analisa-rapid', 'inputAnalisaRapid')->name('input-analisa-rapid');
     Route::post('/tambah-analisa-astm', 'inputAnalisaAstm')->name('input-analisa-astm');
     Route::get('/edit-data-analisa-rapid{id}', 'editAnalisaRapid')->name('edit-rapid-analisa');
     Route::get('/edit-data-analisa-astm{id}', 'editAnalisaAstm')->name('edit-astm-analisa');
     Route::patch('/update-rapid{id}', 'updateRapid')->name('update-rapid');
     Route::patch('/update-astm{id}', 'updateAstm')->name('update-astm');
-    Route::get('/delete-analisa/{id}', 'deleteAnalisa')->name('delete-analisa');
+    Route::patch('/update-analisa-astm{id}', 'updateAnalisaAstm')->name('update-analisa-astm');
+    Route::patch('/update-analisa-rapid{id}', 'updateAnalisaRapid')->name('update-analisa-rapid');
 });
 
 Route::get('/data-report-of-analysis', [Controller::class, 'dataReport'])->name('data-report');
 Route::get('/profil', [Controller::class, 'profil'])->name('profil');
 Route::patch('/update-profil', [Controller::class, 'updateProfil'])->name('update-profil');
 Route::patch('/update-password', [Controller::class, 'updatePassword'])->name('update-password');
+Route::get('/print-report{id}', [Controller::class, 'printReport'])->name('print-report');
+Route::patch('/update-method-rapid{id}', [Controller::class, 'updateMethodRapid'])->name('update-method-rapid');
+Route::patch('/update-method-astm{id}', [Controller::class, 'updateMethodAstm'])->name('update-method-astm');

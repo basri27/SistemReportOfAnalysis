@@ -8,8 +8,8 @@
     <title>Report of Analysis | {{ $report->analisa->job_no }}
         {{ $report->analisa->kode }}_{{ $report->analisa->client }}_{{ $report->analisa->standard }}</title>
     <link rel="icon" href="{{ asset('argon/img/scci.png') }}">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+    <!-- CSS Files -->
+    <link id="pagestyle" href="{{ asset('argon/assets/css/argon-dashboard.css') }}" rel="stylesheet" />
     <style>
         .text-sm {
             font-size: .6em
@@ -25,7 +25,7 @@
             width: 1%;
         }
 
-        hr {
+        .my-hr {
             display: block;
             height: 1px;
             border: 0;
@@ -101,7 +101,7 @@
                 <td>{{ \Carbon\Carbon::parse($report->date_reported)->format('d F Y') }}</td>
             </tr>
         </table>
-        <hr class="mt-0 m-2">
+        <hr class="mt-0 m-2 my-hr">
         <p class="text-sm">
             THIS IS TO REPORT, that we have performed the inspection of the coal consignmentnominated above. The
             consignments was received by us. The sample has been checked as received with properly packed and no sealed
@@ -218,7 +218,7 @@
         </div>
         <div class="mt-0 d-flex justify-content-between">
             <p class="text-sm mt-0">F-05-PSM-OPR-SCCI-01</p>
-            <p class="text-sm mt-0">Page {{ $page }} of 2</p>
+            <p class="text-sm mt-0">{{ $page }} of {{ $count }}</p>
         </div>
     </div>
 

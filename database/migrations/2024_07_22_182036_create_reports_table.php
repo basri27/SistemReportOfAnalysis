@@ -21,7 +21,6 @@ return new class extends Migration
             $table->double('weight');
             $table->date('date_recieve');
             $table->date('date_reported');
-            $table->string('page');
             $table->foreignId('analisa_id')->constrained();
             $table->timestamps();
         });

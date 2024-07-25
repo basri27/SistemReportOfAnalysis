@@ -19,7 +19,7 @@
             font-size: .5em
         }
 
-        hr {
+        .my-hr {
             display: block;
             height: 1px;
             border: 0;
@@ -95,7 +95,7 @@
                 <td>{{ \Carbon\Carbon::parse($report->date_reported)->format('d F Y') }}</td>
             </tr>
         </table>
-        <hr class="mt-0 m-2">
+        <hr class="mt-0 m-2 my-hr">
         <p class="text-sm">
             THIS IS TO REPORT, that we have performed the inspection of the coal consignmentnominated above. The
             consignments was received by us. The sample has been checked as received with properly packed and no sealed
@@ -152,7 +152,7 @@
         </div>
         <div class="mt-0 d-flex justify-content-between">
             <p class="text-sm mt-0">F-05-PSM-OPR-SCCI-01</p>
-            <p class="text-sm mt-0">Page 1 of 2</p>
+            <p class="text-sm mt-0">Page {{ $page }} of {{ $count }}</p>
         </div>
     </div>
 

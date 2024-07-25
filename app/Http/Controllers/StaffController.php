@@ -152,15 +152,21 @@ class StaffController extends Controller
     }
 
     public function editAnalisaRapid($id) {
-        $analisa = Analisa::find($id);
+        $analisa = Analisa::with('report')->find($id);
+        foreach($analisa->report as $report) {
+            
+        }
 
-        return view('pages.crud.edit-rapid-analisa', compact('analisa'));
+        return view('pages.lab.crud.edit-rapid-analisa', compact('analisa', 'report'));
     }
 
     public function editAnalisaAstm($id) {
-        $analisa = Analisa::find($id);
+        $analisa = Analisa::with('report')->find($id);
+        foreach($analisa->report as $report) {
+            
+        }
 
-        return view('pages.crud.edit-astm-analisa', compact('analisa'));
+        return view('pages.lab.crud.edit-astm-analisa', compact('analisa', 'report'));
     }
 
     public function updateRapid(Request $request, $id) {
@@ -256,32 +262,127 @@ class StaffController extends Controller
         return redirect()->route('data-hasil-analisa')->with(['success' => 'Data hasil analisa Sample ID: ' . $analisa->lab_sample_id . ' (Standard RAPID) berhasil di-update!']);
     }
 
-    public function deleteAnalisa($id) {
+    public function updateAnalisaAstm(Request $request, $id) {
         $analisa = Analisa::find($id);
-        $report = Report::with('analisa')->where('analisa_id', $id)->first();
-        if($analisa->standard == 'RAPID') {
-            if($report != null) {
-                $report->delete();
-            }
-            $analisa->delete();
-            $analisa->iso->delete();
-        }
-        else if($analisa->standard == 'ASTM') {
-            if($report != null) {
-                $report->delete();
-            }
-            $analisa->delete();
-            $analisa->astm->delete();
-            $analisa->astm->gross->delete();
-            $analisa->astm->totalMoist->delete();
-            $analisa->astm->sulfur->delete();
-            $analisa->astm->proximate->delete();
-            $analisa->astm->proximate->moist->delete();
-            $analisa->astm->proximate->carbon->delete();
-            $analisa->astm->proximate->ash->delete();
-            $analisa->astm->proximate->volatile->delete();
+        $ash_ar = number_format(((100 - $request->input('total_moist')) / (100 - $request->input('moist'))) * $request->input('ash'), 2, '.');
+        $ash_db = number_format((100 / (100 - $request->input('moist'))) * $request->input('ash'), 2, '.');
+        $vol_ar = number_format(((100 - $request->input('total_moist')) / (100 - $request->input('moist'))) * $request->input('volatile'), 2, '.');
+        $vol_db = number_format((100 / (100 - $request->input('moist'))) * $request->input('volatile'), 2, '.');
+        $vol_daf = number_format(100 / (100 - $request->input('moist') - $request->input('ash')) * $request->input('volatile'), );
+        $ca_ar = 100 - $request->input('total_moist') - $ash_ar - $vol_ar;
+        $ca_adb = 100 - $request->input('moist') - $request->input('ash') - $request->input('volatile');
+        $ca_db = 100 - $ash_db - $vol_db;
+        $ca_daf = number_format(100 / (100 - $request->input('moist') - $request->input('ash')) * $ca_adb, 2, '.');
+        $sul_ar = number_format(((100 - $request->input('total_moist')) / (100 - $request->input('moist'))) * $request->input('sulfur'), 2, '.');
+        $sul_db = number_format((100 / (100 - $request->input('moist'))) * $request->input('sulfur'), 2, '.');
+        $sul_daf = number_format(100 / (100 - $request->input('moist') - $request->input('ash')) * $request->input('sulfur'), 2, '.');
+        $gross_ar = number_format(((100 - $request->input('total_moist')) / (100 - $request->input('moist'))) * $request->input('gross'), 0, '.', '');
+        $gross_db = number_format((100 / (100 - $request->input('moist'))) * $request->input('gross'), 0, '.', '');
+        $gross_daf = number_format(100 / (100 - $request->input('moist') - $request->input('ash')) * $request->input('gross'), 0, '.', '');
+
+        if($analisa->astm_id != null) {
+            $analisa->astm->totalMoist->update(['tm_ar' => $request->input('total_moist')]);
+            $analisa->astm->proximate->moist->update(['mo_adb' => $request->input('moist')]);
+            $analisa->astm->proximate->ash->update([
+                'ash_ar' => $ash_ar,
+                'ash_adb' => $request->input('ash'),
+                'ash_db' => $ash_db,
+            ]);
+            $analisa->astm->proximate->volatile->update([
+                'vo_ar' => $vol_ar,
+                'vo_adb' => $request->input('volatile'),
+                'vo_db' => $vol_db,
+                'vo_daf' => $vol_daf
+            ]);
+            $analisa->astm->proximate->carbon->update([
+                'ca_ar' => $ca_ar,
+                'ca_adb' => $ca_adb,
+                'ca_db' => $ca_db,
+                'ca_daf' => $ca_daf
+            ]);
+            $analisa->astm->gross->update([
+                'gr_ar' => $gross_ar,
+                'gr_adb' => $request->input('gross'),
+                'gr_db' => $gross_db,
+                'gr_daf' => $gross_daf
+            ]);
+            $analisa->astm->sulfur->update([
+                'su_ar' => $sul_ar,
+                'su_adb' => $request->input('sulfur'),
+                'su_db' => $sul_db,
+                'su_daf' => $sul_daf
+            ]);
+        }else if($analisa->astm_id == null) {
+            $tot_moist = TotalMoist::create(['tm_ar' => $request->input('total_moist')]);
+            $moist = Moist::create(['mo_adb' => $request->input('moist')]);
+            $ash = Ash::create([
+                'ash_ar' => $ash_ar,
+                'ash_adb' => $request->input('ash'),
+                'ash_db' => $ash_db,
+            ]);
+            $volatile = Volatile::create([
+                'vo_ar' => $vol_ar,
+                'vo_adb' => $request->input('volatile'),
+                'vo_db' => $vol_db,
+                'vo_daf' => $vol_daf
+            ]);
+            $carbon = Carbon::create([
+                'ca_ar' => $ca_ar,
+                'ca_adb' => $ca_adb,
+                'ca_db' => $ca_db,
+                'ca_daf' => $ca_daf
+            ]);
+            $sulfur = Sulfur::create([
+                'su_ar' => $sul_ar,
+                'su_adb' => $request->input('sulfur'),
+                'su_db' => $sul_db,
+                'su_daf' => $sul_daf
+            ]);
+            $gross = Gross::create([
+                'gr_ar' => $gross_ar,
+                'gr_adb' => $request->input('gross'),
+                'gr_db' => $gross_db,
+                'gr_daf' => $gross_daf
+            ]);
+            $proximate = Proximate::create([
+                'moist_id' => $moist->id,
+                'volatile_id' => $volatile->id,
+                'carbon_id' => $carbon->id,
+                'ash_id' => $ash->id
+            ]);
+            $astm = Astm::create([
+                'proximate_id' => $proximate->id,
+                'gross_id' => $gross->id,
+                'sulfur_id' => $sulfur->id,
+                'total_moist_id' => $tot_moist->id
+            ]);
+
+            $analisa->update([
+                'astm_id' => $astm->id,
+            ]);
         }
 
-        return redirect()->route('data-hasil-analisa')->with(['success' => 'Data hasil analisa Sample ID: ' . $analisa->lab_sample_id . ' berhasil dihapus!']);
+        return redirect()->route('data-hasil-analisa')->with('success', 'Data dengan Job No: [' . $analisa->job_no . '] | Kode Sampel: [' . $analisa->lab_sample_id . '] berhasil diubah!');
+    }
+
+    public function updateAnalisaRapid(Request $request, $id) {
+        $analisa = Analisa::find($id);
+        if($analisa->iso_id != null) {
+            $analisa->iso->update([
+                'ash' => $request->input('ash'),
+                'sulfur' => $request->input('sulfur')
+            ]);
+        }else if($analisa->iso_id == null) {
+            $iso = Iso::create([
+                'sulfur' => $request->input('sulfur'),
+                'ash' => $request->input('ash')
+            ]);
+
+            $analisa->update([
+                'iso_id' => $iso->id
+            ]);
+        }
+
+        return redirect()->route('data-hasil-analisa')->with('success', 'Data dengan Job No: [' . $analisa->job_no . '] | Kode Sampel: [' . $analisa->lab_sample_id . '] berhasil diubah!');
     }
 }
