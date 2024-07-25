@@ -13,10 +13,10 @@ return new class extends Migration
     {
         Schema::create('isos', function (Blueprint $table) {
             $table->id();
-            $table->double('sulfur');
-            $table->double('ash');
-            $table->string('method_sulfur');
-            $table->string('method_ash');
+            $table->double('sulfur')->nullable();
+            $table->double('ash')->nullable();
+            $table->string('method_sulfur')->nullable();
+            $table->string('method_ash')->nullable();
             $table->timestamps();
         });
     }

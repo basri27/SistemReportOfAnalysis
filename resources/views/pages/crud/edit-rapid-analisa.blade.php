@@ -1,7 +1,7 @@
 @extends('layouts.app', ['class' => 'g-sidenav-show bg-gray-100'])
-@section('title', 'Input Hasil Analisa (Standard ASTM) | Sistem Report of Analysis')
+@section('title', 'Edit Hasil Analisa | Sistem Report of Analysis')
 @section('content')
-    @include('layouts.navbars.auth.topnav', ['title' => 'Input Hasil Analisa'])
+    @include('layouts.navbars.auth.topnav', ['title' => 'Edit Hasil Analisa'])
     <div class="row mt-4 mx-4">
         <div class="col-12">
             {{-- <div class="alert alert-light" role="alert">
@@ -14,66 +14,62 @@
             </div> --}}
             <div class="card mb-4">
                 <div class="card-header pb-0">
-                    <h6>Form Input Data Hasil Analisa (Standard ASTM)</h6>
+                    <h6>Form Edit Data Hasil Analisa (Standard RAPID)</h6>
                     <hr>
                 </div>
-                <form action="{{ route('input-analisa-astm') }}" method="POST">
+                <form action="{{ route('update-rapid', $analisa->id) }}" method="POST">
+                    @method('PATCH')
                     @csrf
                     <div class="card-body pt-0 pb-2">
                         <div class="row">
                             <div class="col-md-3">
                                 <label for="" class="mb-1">Job No.</label>
-                                <input type="text" name="job_no" id="job_no"
+                                <input type="text" name="job_no" id="job_no" value="{{ $analisa->job_no }}"
                                     class="form-control form-control-sm mb-2">
                             </div>
                             <div class="col-md-3">
                                 <label for="" class="mb-1">Kode</label>
-                                <input type="text" name="kode" id="kode"
+                                <input type="text" name="kode" id="kode" value="{{ $analisa->kode }}"
                                     class="form-control form-control-sm mb-2">
                             </div>
                             <div class="col-md-3">
                                 <label for="" class="mb-1">Kode Sample</label>
                                 <input type="text" name="kode_sampel" id="kode_sampel"
-                                    class="form-control form-control-sm mb-2">
+                                    value="{{ $analisa->kode_sampel }}" class="form-control form-control-sm mb-2">
                             </div>
                             <div class="col-md-3">
                                 <label for="" class="mb-1">Client</label>
-                                <input type="text" name="client" id="client"
+                                <input type="text" name="client" id="client" value="{{ $analisa->client }}"
                                     class="form-control form-control-sm mb-2">
                             </div>
                             <div class="col-md-3">
                                 <label for="" class="mb-1">Kode Seam</label>
-                                <input type="text" name="kode_seam" id="kode_seam"
+                                <input type="text" name="kode_seam" id="kode_seam" value="{{ $analisa->kode_seam }}"
                                     class="form-control form-control-sm mb-2">
                             </div>
                             <div class="col-md-3">
                                 <label for="" class="mb-1">Kontraktor</label>
-                                <input type="text" name="kontraktor" id="kontraktor"
+                                <input type="text" name="kontraktor" id="kontraktor" value="{{ $analisa->kontraktor }}"
                                     class="form-control form-control-sm mb-2">
                             </div>
                             <div class="col-md-3">
                                 <label for="" class="mb-1">Lab Sample ID</label>
-                                <input type="text" name="sampel_id" id="sampel_id"
+                                <input type="text" name="sampel_id" id="sampel_id" value="{{ $analisa->lab_sample_id }}"
                                     class="form-control form-control-sm mb-2">
                             </div>
                             <div class="col-md-3">
                                 <label for="" class="mb-1">Status</label>
-                                <input type="text" name="status" id="status"
+                                <input type="text" name="status" id="status" value="{{ $analisa->status }}"
                                     class="form-control form-control-sm mb-2">
                             </div>
                             <div class="col-md-3">
                                 <label for="" class="mb-1">TAT</label>
                                 <input type="number" min="0" name="tat" id="tat"
-                                    class="form-control form-control-sm mb-2">
+                                    value="{{ $analisa->tat }}" class="form-control form-control-sm mb-2">
                             </div>
                             <div class="col-md-3">
                                 <label for="" class="mb-1">Tgl. Sample</label>
-                                <input type="date" name="tgl_sampel" id="tgl_sampel"
-                                    class="form-control form-control-sm mb-2">
-                            </div>
-                            <div class="col-md-3">
-                                <label for="" class="mb-1">ADL-A</label>
-                                <input type="number" step="any" min="0" name="" id=""
+                                <input type="date" name="tgl_sampel" id="tgl_sampel" value="{{ $analisa->tgl_sampel }}"
                                     class="form-control form-control-sm mb-2">
                             </div>
                         </div>
@@ -81,34 +77,14 @@
                         <h6><u>Nilai Parameter Hasil Analisa (%)</u></h6>
                         <div class="row">
                             <div class="col-md-3">
-                                <label for="" class="mb-1">Total Moisture (TM-C)</label>
-                                <input type="number" step="any" min="0" name="total_moist" id="total_moist"
-                                    class="form-control form-control-sm mb-2">
-                            </div>
-                            <div class="col-md-3">
-                                <label for="" class="mb-1">Moisture in Analysis Sample(IM-A)</label>
-                                <input type="number" step="any" min="0" name="moist" id="moist"
-                                    class="form-control form-control-sm mb-2">
-                            </div>
-                            <div class="col-md-3">
                                 <label for="" class="mb-1">Ash Content(ASH-A)</label>
                                 <input type="number" step="any" min="0" name="ash" id="ash"
-                                    class="form-control form-control-sm mb-2">
-                            </div>
-                            <div class="col-md-3">
-                                <label for="" class="mb-1">Volatile Matter(VM-A)</label>
-                                <input type="number" step="any" min="0" name="volatile" id="volatile"
-                                    class="form-control form-control-sm mb-2">
+                                    value="{{ $analisa->iso->ash }}" class="form-control form-control-sm mb-2">
                             </div>
                             <div class="col-md-3">
                                 <label for="" class="mb-1">Total Sulfur(TS-A)</label>
                                 <input type="number" step="any" min="0" name="sulfur" id="sulfur"
-                                    class="form-control form-control-sm mb-2">
-                            </div>
-                            <div class="col-md-3">
-                                <label for="" class="mb-1">Gross Calorific Value (CV-A)</label>
-                                <input type="number" step="any" min="0" name="gross" id="gross"
-                                    class="form-control form-control-sm mb-2">
+                                    value="{{ $analisa->iso->sulfur }}" class="form-control form-control-sm mb-2">
                             </div>
                         </div>
                     </div>

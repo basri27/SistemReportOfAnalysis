@@ -36,14 +36,28 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link {{ Route::is('hasil-analisa') || Route::is('data-hasil-analisa') || Route::is('add-data-analisa-astm') || Route::is('add-data-analisa-rapid') ? 'active' : '' }}"
-                    @if (Auth::user()->role == 'admin') href="{{ route('hasil-analisa') }}"
+                <a class="nav-link {{ Route::is('hasil-analisa-lab') || Route::is('data-hasil-analisa') || Route::is('add-data-analisa-astm') || Route::is('add-data-analisa-rapid') ? 'active' : '' }}"
+                    @if (Auth::user()->role == 'admin') href="{{ route('hasil-analisa-lab') }}"
                     @else href="{{ route('data-hasil-analisa') }}" @endif>
                     <div
                         class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-                        <i class="ni ni-bullet-list-67 text-dark text-sm opacity-10"></i>
+                        <i class="ni ni-single-copy-04 text-dark text-sm opacity-10"></i>
                     </div>
-                    <span class="nav-link-text ms-1">Data Hasil Analisa</span>
+                    @if (Auth::user()->role == 'admin')
+                        <span class="nav-link-text ms-1">Data Hasil Analisa Lab</span>
+                    @else
+                        <span class="nav-link-text ms-1">Data Analisa</span>
+                    @endif
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link {{ Route::is('data-report') || Route::is('add-report-analisa-astm') || Route::is('add-report-analisa-rapid') ? 'active' : '' }}"
+                    href="{{ route('data-report') }}">
+                    <div
+                        class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                        <i class="ni ni-archive-2 text-dark text-sm opacity-10"></i>
+                    </div>
+                    <span class="nav-link-text ms-1">Data Report of Analysis</span>
                 </a>
             </li>
         </ul>

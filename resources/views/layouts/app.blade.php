@@ -19,9 +19,10 @@
     <link href="{{ asset('argon/assets/css/nucleo-svg.css') }}" rel="stylesheet" />
     <!-- CSS Files -->
     <link id="pagestyle" href="{{ asset('argon/assets/css/argon-dashboard.css') }}" rel="stylesheet" />
-    <link rel="stylesheet" href="{{ asset('argon/assets/css/modal-custom.css') }}">
+
     {{-- DataTable --}}
     <link rel="stylesheet" href="//cdn.datatables.net/2.1.0/css/dataTables.dataTables.min.css">
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
 </head>
 
 <body class="{{ $class ?? '' }}">
@@ -83,8 +84,7 @@
     <script src="{{ asset('argon/assets/js/argon-dashboard.js') }}"></script>
     {{-- DataTable --}}
     <script src="//cdn.datatables.net/2.1.0/js/dataTables.min.js"></script>
-    {{-- Custom JS --}}
-    <script src="{{ asset('argon/assets/js/modal-custom.js') }}"></script>
+    <script src="{{ asset('js/script.js') }}"></script>
     @stack('js');
     @yield('custom-js')
 </body>

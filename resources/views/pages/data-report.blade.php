@@ -1,7 +1,7 @@
 @extends('layouts.app', ['class' => 'g-sidenav-show bg-gray-100'])
-@section('title', 'Data Hasil Analisa | Sistem Report of Analysis')
+@section('title', 'Data Report of Analysis | Sistem Report of Analysis')
 @section('content')
-    @include('layouts.navbars.auth.topnav', ['title' => 'Data Hasil Analisa'])
+    @include('layouts.navbars.auth.topnav', ['title' => 'Data Report of Analysis'])
     <div class="row mt-4 mx-4">
         <div class="col-12">
             {{-- <div class="alert alert-light" role="alert">
@@ -14,11 +14,11 @@
             </div> --}}
             <div class="card mb-4">
                 <div class="card-header pb-0 d-flex justify-content-between mb-0">
-                    <h6>Data Hasil Analisa</h6>
+                    <h6>Data Report of Analysis</h6>
                 </div>
 
                 <div class="card-body pt-0 pb-2">
-                    <div class="table-responsive p-0">
+                    <div class="table-responsive">
                         <table id="myTable" class="table align-items-center mb-0">
                             <thead>
                                 <tr>
@@ -29,19 +29,16 @@
                                         Lab Sample ID
                                     </th>
                                     <th class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7">
-                                        Kode
+                                        Principal
                                     </th>
                                     <th class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7">
                                         Standard
                                     </th>
                                     <th class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7">
-                                        Kode Sample
+                                        Attention
                                     </th>
                                     <th class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7">
-                                        Client
-                                    </th>
-                                    <th class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7">
-                                        Tgl. Sample
+                                        Date Reported
                                     </th>
                                     <th
                                         class="text-center text-uppercase text-secondary text-xs font-weight-bolder opacity-7">
@@ -50,34 +47,32 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($analisa as $item)
+                                @foreach ($report as $item)
                                     <tr>
                                         <td>
-                                            <p class="text-xs font-weight-bold mb-0">{{ $item->job_no }}</p>
+                                            <p class="text-xs font-weight-bold mb-0">{{ $item->analisa->job_no }}</p>
                                         </td>
                                         <td>
-                                            <p class="text-xs font-weight-bold mb-0">{{ $item->lab_sample_id }}</p>
+                                            <p class="text-xs font-weight-bold mb-0">{{ $item->analisa->lab_sample_id }}</p>
                                         </td>
                                         <td>
-                                            <p class="text-xs font-weight-bold mb-0">{{ $item->kode }}</p>
+                                            <p class="text-xs font-weight-bold mb-0">{{ $item->principal }}</p>
                                         </td>
                                         <td>
-                                            <p class="text-xs font-weight-bold mb-0">{{ $item->standard }}</p>
+                                            <p class="text-xs font-weight-bold mb-0">{{ $item->analisa->standard }}</p>
                                         </td>
                                         <td>
-                                            <p class="text-xs font-weight-bold mb-0">{{ $item->kode_sampel }}</p>
-                                        </td>
-                                        <td>
-                                            <p class="text-xs font-weight-bold mb-0">{{ $item->client }}</p>
+                                            <p class="text-xs font-weight-bold mb-0">{{ $item->attention }}</p>
                                         </td>
                                         <td>
                                             <p class="text-xs font-weight-bold mb-0">
-                                                {{ \Carbon\Carbon::parse($item->tgl_sampel)->format('d F Y') }}</p>
+                                                {{ \Carbon\Carbon::parse($item->date_reported)->format('d F Y') }}</p>
                                         </td>
                                         <td>
-                                            <a @if ($item->standard == 'RAPID') href="{{ route('add-report-analisa-rapid', $item->id) }}" @else href="{{ route('add-report-analisa-astm', $item->id) }}" @endif
-                                                class="text-xs mb-0">
-                                                <u><i class="fas fa-plus"></i>&nbsp;Create Report</u>
+                                            <a class="text-xs mbb-0"
+                                                @if ($item->analisa->standard == 'ASTM') href="{{ route('print-preview-astm', ['id' => $item->id, 'page' => $item->page]) }}" @elseif($item->analisa->standard == 'RAPID') href="{{ route('print-preview-rapid', ['id' => $item->id, 'page' => $item->page]) }}" @endif
+                                                target="_blank">
+                                                <u><i class="fas fa-print"></i>&nbsp;Print</u>
                                             </a>
                                         </td>
                                     </tr>

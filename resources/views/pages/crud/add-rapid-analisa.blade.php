@@ -66,6 +66,11 @@
                                 <input type="number" min="0" name="tat" id="tat"
                                     class="form-control form-control-sm mb-2">
                             </div>
+                            <div class="col-md-3">
+                                <label for="" class="mb-1">Tgl. Sample</label>
+                                <input type="date" name="tgl_sampel" id="tgl_sampel"
+                                    class="form-control form-control-sm mb-2">
+                            </div>
                         </div>
                         <hr>
                         <h6><u>Nilai Parameter Hasil Analisa (%)</u></h6>
@@ -85,50 +90,11 @@
                     <div class="card-footer mt-0 pb-0 pt-0">
                         <hr class="mt-0">
                         <div class="d-flex justify-content-end">
-                            <a href="#statusSuccessModal" data-bs-toggle="modal"
-                                class="btn btn-sm btn-primary">Submit</a>&nbsp;
+                            <button type="submit" class="btn btn-sm btn-primary">Submit</button>&nbsp;
                             <a href="{{ route('data-hasil-analisa') }}" class="btn btn-sm btn-success">Cancel</a>
                         </div>
                     </div>
                 </form>
-            </div>
-        </div>
-    </div>
-    <div class="modal fade" id="statusSuccessModal" tabindex="-1" role="dialog" data-bs-backdrop="static"
-        data-bs-keyboard="false">
-        <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
-            <div class="modal-content">
-                <div class="modal-body text-center p-lg-4">
-                    <svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 130.2 130.2">
-                        <circle class="path circle" fill="none" stroke="#198754" stroke-width="6"
-                            stroke-miterlimit="10" cx="65.1" cy="65.1" r="62.1" />
-                        <polyline class="path check" fill="none" stroke="#198754" stroke-width="6"
-                            stroke-linecap="round" stroke-miterlimit="10" points="100.2,40.2 51.5,88.8 29.8,67.5 " />
-                    </svg>
-                    <h4 class="text-success mt-3">Oh Yeah!</h4>
-                    <p class="mt-3">You have successfully registered and logged in.</p>
-                    <button type="button" class="btn btn-sm mt-3 btn-success" data-bs-dismiss="modal">Ok</button>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="modal fade" id="statusErrorsModal" tabindex="-1" role="dialog" data-bs-backdrop="static"
-        data-bs-keyboard="false">
-        <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
-            <div class="modal-content">
-                <div class="modal-body text-center p-lg-4">
-                    <svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 130.2 130.2">
-                        <circle class="path circle" fill="none" stroke="#db3646" stroke-width="6"
-                            stroke-miterlimit="10" cx="65.1" cy="65.1" r="62.1" />
-                        <line class="path line" fill="none" stroke="#db3646" stroke-width="6" stroke-linecap="round"
-                            stroke-miterlimit="10" x1="34.4" y1="37.9" x2="95.8" y2="92.3" />
-                        <line class="path line" fill="none" stroke="#db3646" stroke-width="6" stroke-linecap="round"
-                            stroke-miterlimit="10" x1="95.8" y1="38" X2="34.4" y2="92.2" />
-                    </svg>
-                    <h4 class="text-danger mt-3">Invalid email!</h4>
-                    <p class="mt-3">This email is already registered, please login.</p>
-                    <button type="button" class="btn btn-sm mt-3 btn-danger" data-bs-dismiss="modal">Ok</button>
-                </div>
             </div>
         </div>
     </div>

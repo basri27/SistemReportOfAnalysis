@@ -4,14 +4,13 @@
     @include('layouts.navbars.auth.topnav', ['title' => 'Data Hasil Analisa'])
     <div class="row mt-4 mx-4">
         <div class="col-12">
-            {{-- <div class="alert alert-light" role="alert">
-                This feature is available in <strong>Argon Dashboard 2 Pro Laravel</strong>. Check it
-                <strong>
-                    <a href="https://www.creative-tim.com/product/argon-dashboard-pro-laravel" target="_blank">
-                        here
-                    </a>
-                </strong>
-            </div> --}}
+            @if ($message = Session::get('success'))
+                <div class="alert alert-light alert-dismissable fade show d-flex justify-content-between" role="alert">
+                    <strong>{{ $message }}</strong>
+                    <button type="button" class="btn-close bg-dark" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            @endif
+
             <div class="card mb-4">
                 <div class="card-header pb-0 d-flex justify-content-between mb-0">
                     <h6>Data Hasil Analisa</h6>
@@ -35,10 +34,10 @@
                             <thead>
                                 <tr>
                                     <th class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7">
-                                        Lab Sample ID
+                                        Job No.
                                     </th>
                                     <th class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7">
-                                        Job No.
+                                        Lab Sample ID
                                     </th>
                                     <th class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7">
                                         Kode
@@ -52,6 +51,9 @@
                                     <th class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7">
                                         Client
                                     </th>
+                                    <th class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7">
+                                        Tgl. Sample
+                                    </th>
                                     <th
                                         class="text-center text-uppercase text-secondary text-xs font-weight-bolder opacity-7">
                                         Action
@@ -59,41 +61,42 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>
-                                        <p class="text-xs font-weight-bold mb-0">dawda2daw</p>
-                                    </td>
-                                    <td>
-                                        <p class="text-xs font-weight-bold mb-0">Admin</p>
-                                    </td>
-                                    <td>
-                                        <p class="text-xs font-weight-bold mb-0">Admin</p>
-                                    </td>
-                                    <td>
-                                        <p class="text-xs font-weight-bold mb-0">22/03/2022</p>
-                                    </td>
-                                    <td>
-                                        <p class="text-xs font-weight-bold mb-0">22/03/2022</p>
-                                    </td>
-                                    <td>
-                                        <p class="text-xs font-weight-bold mb-0">22/03/2022</p>
-                                    </td>
-                                    <td class="text-center">
-                                        {{-- <div class="d-flex justify-content-center ">
-                                            <a class="btn btn-sm btn-success text-xs" href="#">
-                                                Edit</a>&nbsp;
-                                            <a class="btn btn-sm btn-danger text-xs" href="#">
-                                                Delete
+                                @foreach ($analisa as $item)
+                                    <tr>
+                                        <td>
+                                            <p class="text-xs font-weight-bold mb-0">{{ $item->job_no }}</p>
+                                        </td>
+                                        <td>
+                                            <p class="text-xs font-weight-bold mb-0">{{ $item->lab_sample_id }}</p>
+                                        </td>
+                                        <td>
+                                            <p class="text-xs font-weight-bold mb-0">{{ $item->kode }}</p>
+                                        </td>
+                                        <td>
+                                            <p class="text-xs font-weight-bold mb-0">{{ $item->standard }}</p>
+                                        </td>
+                                        <td>
+                                            <p class="text-xs font-weight-bold mb-0">{{ $item->kode_sampel }}</p>
+                                        </td>
+                                        <td>
+                                            <p class="text-xs font-weight-bold mb-0">{{ $item->client }}</p>
+                                        </td>
+                                        <td>
+                                            <p class="text-xs font-weight-bold mb-0">
+                                                {{ \Carbon\Carbon::parse($item->tgl_sampel)->format('d F Y') }}</p>
+                                        </td>
+                                        <td class="text-center">
+                                            <a @if ($item->standard == 'RAPID') href="{{ route('edit-rapid-analisa', $item->id) }}" @elseif($item->standard == 'ASTM') href="{{ route('edit-astm-analisa', $item->id) }}" @endif
+                                                class="text-xs mb-0">
+                                                <u><i class="fas fa-edit"></i>Edit</u>
+                                            </a>&nbsp;
+                                            <a onclick="deleteAnalisa({{ $item->id }})" class="text-xs mb-0">
+                                                <u><i class="fas fa-trash"></i>Delete</u>
                                             </a>
-                                        </div> --}}
-                                        <a href="#" class="text-xs mb-0">
-                                            <u><i class="fas fa-edit"></i>Edit</u>
-                                        </a>&nbsp;
-                                        <a href="#" class="text-xs mb-0">
-                                            <u><i class="fas fa-trash"></i>Delete</u>
-                                        </a>
-                                    </td>
-                                </tr>
+                                        </td>
+                                    </tr>
+                                @endforeach
+
                             </tbody>
                         </table>
                     </div>
@@ -101,10 +104,39 @@
             </div>
         </div>
     </div>
+    @foreach ($analisa as $item)
+        <div class="modal fade" tabindex="-1" data-bs-backdrop="static" id="delete{{ $item->id }}">
+            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Do you want to delete this data?</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <table class="table">
+
+                        </table>
+                    </div>
+                    <div class="modal-footer pb-0">
+                        <button type="button" class="btn  btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn  btn-danger">Confirm</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endforeach
 @endsection
 
 @section('custom-js')
     <script>
         $('#myTable').DataTable();
+
+        function deleteAnalisa($id) {
+            if (confirm("Do you want to delete this data?"))
+                window.location.href = '/reportofanalysis/delete-analisa/' + $id;
+            else {
+                console.log("Error");
+            }
+        }
     </script>
 @endsection

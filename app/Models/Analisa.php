@@ -12,9 +12,10 @@ class Analisa extends Model
     protected $fillable = [
         'job_no',
         'kode',
+        'lab_sample_id',
         'standard',
         'parameter',
-        'kode_sammpel',
+        'kode_sampel',
         'client',
         'kode_seam',
         'kontraktor',
@@ -32,5 +33,9 @@ class Analisa extends Model
 
     public function iso() {
         return $this->belongsTo(Iso::class);
+    }
+
+    public function report() {
+        return $this->hasMany(Report::class);
     }
 }

@@ -15,15 +15,16 @@ return new class extends Migration
             $table->id();
             $table->string('job_no');
             $table->string('kode');
+            $table->string('lab_sample_id');
             $table->string('standard');
             $table->string('parameter');
-            $table->string('kode_sammpel');
+            $table->string('kode_sampel');
             $table->string('client');
             $table->string('kode_seam')->nullable();
             $table->string('kontraktor')->nullable();
             $table->string('status');
             $table->double('adl_a')->nullable();
-            $table->integer('tat');
+            $table->integer('tat')->nullable();
             $table->date('tgl_sampel');
             $table->foreignId('astm_id')->nullable();
             $table->foreignId('iso_id')->nullable();
