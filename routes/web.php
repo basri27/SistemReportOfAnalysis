@@ -47,6 +47,10 @@ Route::controller(AdminController::class)->group(function () {
     Route::get('/edit-analisa-rapid/{id}', 'editDataAnalisaRapid')->name('edit-data-analisa-rapid');
     Route::patch('/update-data-rapid{id}', 'updateAnalisaRapid')->name('update-data-rapid');
     Route::get('/delete-analisa/{id}', 'deleteAnalisa')->name('delete-analisa');
+    Route::get('/edit-report-astm/{id}', 'editReportAstm')->name('edit-report-astm');
+    Route::get('/edit-report-rapid/{id}', 'editReportRapid')->name('edit-report-rapid');
+    Route::patch('/report-update-astm{id}', 'reportUpdateAstm')->name('report-update-astm');
+    Route::patch('/report-update-rapid{id}', 'reportUpdateRapid')->name('report-update-rapid');
 });
 
 Route::controller(StaffController::class)->group(function () {

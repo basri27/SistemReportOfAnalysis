@@ -250,4 +250,50 @@ class AdminController extends Controller
 
         return view('layouts.print-preview-astm', compact('report', 'count', 'page'));
     }
+
+    public function editReportAstm($id) {
+        $report = Report::find($id);
+
+        return view('pages.admin.crud.edit-report-astm', compact('report'));
+    }
+
+    public function editReportRapid($id) {
+        $report = Report::find($id);
+
+        return view('pages.admin.crud.edit-report-rapid', compact('report'));
+    }
+
+    public function reportUpdateAstm(Request $request, $id) {
+        $report = Report::find($id);
+        $analisa = Analisa::find($report->analisa_id);
+        $report->update([
+            'principal' => $request->input('principal'),
+            'address' => $request->input('address'),
+            'attention' => $request->input('attention'),
+            'reff_order' => $request->input('refforder'),
+            'consignment' => $request->input('consignment'),
+            'weight' => $request->input('weight'),
+            'date_recieve' => $request->input('date_recieve'),
+            'date_reported' => $request->input('date_reported'),
+        ]);
+
+        return redirect()->route('data-report')->with('success', 'Data dengan Job No: [' . $analisa->job_no . '] | Kode Sampel: [' . $analisa->lab_sample_id . '] berhasil diubah!');
+    }
+
+    public function reportUpdateRapid(Request $request, $id) {
+        $report = Report::find($id);
+        $analisa = Analisa::find($report->analisa_id);
+        $report->update([
+            'principal' => $request->input('principal'),
+            'address' => $request->input('address'),
+            'attention' => $request->input('attention'),
+            'reff_order' => $request->input('refforder'),
+            'consignment' => $request->input('consignment'),
+            'weight' => $request->input('weight'),
+            'date_recieve' => $request->input('date_recieve'),
+            'date_reported' => $request->input('date_reported'),
+        ]);
+
+        return redirect()->route('data-report')->with('success', 'Data dengan Job No: [' . $analisa->job_no . '] | Kode Sampel: [' . $analisa->lab_sample_id . '] berhasil diubah!');
+    }
 }

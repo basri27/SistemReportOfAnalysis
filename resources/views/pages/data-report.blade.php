@@ -4,6 +4,13 @@
     @include('layouts.navbars.auth.topnav', ['title' => 'Data Report of Analysis'])
     <div class="row mt-4 mx-4">
         <div class="col-12">
+            @if ($message = Session::get('success'))
+                <div class="alert alert-light alert-dismissable fade show d-flex justify-content-between" role="alert">
+                    <strong>{{ $message }}</strong>
+                    <button type="button" class="btn-close bg-dark" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            @endif
+
             <div class="card mb-4">
                 <div class="card-header pb-0 d-flex justify-content-between mb-0">
                     <h6>Data Report of Analysis</h6>
@@ -60,12 +67,11 @@
                                             <p class="text-xs font-weight-bold mb-0">
                                                 {{ \Carbon\Carbon::parse($item->date_reported)->format('d F Y') }}</p>
                                         </td>
-                                        <td>
-                                            {{-- <a class="text-xs mbb-0"
-                                                @if ($item->analisa->standard == 'ASTM') href="{{ route('print-preview-astm', $item->id) }}" @elseif($item->analisa->standard == 'RAPID') href="{{ route('print-preview-rapid', $item->id) }}" @endif
-                                                target="_blank">
-                                                <u><i class="fas fa-print"></i>&nbsp;Print</u>
-                                            </a> --}}
+                                        <td class="text-center">
+                                            <a class="text-xs mbb-0"
+                                                @if ($item->analisa->standard == 'ASTM') href="{{ route('edit-report-astm', $item->id) }}" @elseif($item->analisa->standard == 'RAPID') href="{{ route('edit-report-rapid', $item->id) }}" @endif>
+                                                <u><i class="fas fa-edit"></i>&nbsp;Edit</u>
+                                            </a>&nbsp;
                                             @if ($item->analisa->astm_id != null || $item->analisa->iso_id != null)
                                                 <a class="text-xs mb-0" href="{{ route('print-report', $item->id) }}">
                                                     <u><i class="fas fa-print"></i>&nbsp;Print</u>

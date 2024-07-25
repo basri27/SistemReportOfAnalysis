@@ -51,7 +51,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link {{ Route::is('data-report') || Route::is('add-report-analisa-astm') || Route::is('add-report-analisa-rapid') ? 'active' : '' }}"
+                <a class="nav-link {{ Route::is('data-report') || Route::is('add-report-analisa-astm') || Route::is('add-report-analisa-rapid') || Route::is('print-report') ? 'active' : '' }}"
                     href="{{ route('data-report') }}">
                     <div
                         class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
