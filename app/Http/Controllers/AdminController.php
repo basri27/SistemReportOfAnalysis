@@ -7,8 +7,10 @@ use App\Models\Astm;
 use App\Models\Iso;
 use App\Models\Proximate;
 use App\Models\Report;
+use Carbon\Carbon;
 use Dompdf\Dompdf;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class AdminController extends Controller
 {
@@ -18,7 +20,20 @@ class AdminController extends Controller
     } 
 
     public function dashboard() {
-        return view('pages.admin.dashboard');
+        $todaySample = Analisa::whereDate('created_at', Carbon::now())->count();
+        $todayReport = Report::whereDate('date_reported', Carbon::now())->count();
+        $heaviestSample = Report::whereDate('created_at', Carbon::now())->max('weight');
+        $mostFreqSample = Report::select('consignment')->whereDate('created_at', Carbon::now())->groupBy('consignment')->orderByRaw('COUNT(*) DESC')->limit(1)->get();
+        foreach($mostFreqSample as $most) {
+            
+        }
+
+        $querySample = Analisa::whereDate('created_at', Carbon::now());
+        $todaySampleData = $querySample->orderBy('created_at', 'DESC')->take(5)->get();
+        $query = Report::whereDate('date_reported', Carbon::now());
+        $todayDraft = $query->orderBy('date_reported', 'DESC')->take(5)->get();
+
+        return view('pages.admin.dashboard', compact('todaySample', 'todayReport', 'heaviestSample', 'most', 'todaySampleData', 'todayDraft'));
     }
 
     public function analisa() {

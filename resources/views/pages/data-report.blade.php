@@ -68,10 +68,13 @@
                                                 {{ \Carbon\Carbon::parse($item->date_reported)->format('d F Y') }}</p>
                                         </td>
                                         <td class="text-center">
-                                            <a class="text-xs mbb-0"
-                                                @if ($item->analisa->standard == 'ASTM') href="{{ route('edit-report-astm', $item->id) }}" @elseif($item->analisa->standard == 'RAPID') href="{{ route('edit-report-rapid', $item->id) }}" @endif>
-                                                <u><i class="fas fa-edit"></i>&nbsp;Edit</u>
-                                            </a>&nbsp;
+                                            @if (Auth::user()->role == 'admin')
+                                                <a class="text-xs mbb-0"
+                                                    @if ($item->analisa->standard == 'ASTM') href="{{ route('edit-report-astm', $item->id) }}" @elseif($item->analisa->standard == 'RAPID') href="{{ route('edit-report-rapid', $item->id) }}" @endif>
+                                                    <u><i class="fas fa-edit"></i>&nbsp;Edit</u>
+                                                </a>&nbsp;
+                                            @endif
+
                                             @if ($item->analisa->astm_id != null || $item->analisa->iso_id != null)
                                                 <a class="text-xs mb-0" href="{{ route('print-report', $item->id) }}">
                                                     <u><i class="fas fa-print"></i>&nbsp;Print</u>
